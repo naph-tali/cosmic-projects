@@ -139,3 +139,7 @@ class CosmicMetrics:
         """Simple heuristic for verb-like words"""
         verb_indicators = ['is', 'are', 'was', 'were', 'has', 'have', 'do', 'does', 'did']
         return word.lower() in verb_indicators or word.endswith('ing') or word.endswith('ed')
+
+# ALIAS FOR CCR COMPATIBILITY
+EvaluationMetrics = CosmicMetrics
+
