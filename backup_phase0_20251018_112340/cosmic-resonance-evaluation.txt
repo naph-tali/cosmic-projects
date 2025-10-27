@@ -1,0 +1,8 @@
+cosmic-resonance-evaluation/
+├── cosmic_core.py          # Core cosmic evaluation engine
+├── mathematical_foundation.py # UCP mathematical implementation  
+├── narrative_synthesis.py  # Advanced synthesis with adjoint coupling
+├── evaluation_metrics.py   # Multi-dimensional scoring + curvature
+├── examples/
+│   └── basic_demo.py       # Quick start demo
+└── requirements.txt        # Dependencies

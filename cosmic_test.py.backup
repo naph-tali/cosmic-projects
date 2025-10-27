@@ -1,0 +1,23 @@
+﻿import sys
+import os
+
+# Add the src directory to Python path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
+try:
+    from entropy_tools import EntropicAlchemist
+    from resonant_engine import ResonantCrossoverEngine
+    print("✅ COSMIC MODULES LOADED SUCCESSFULLY!")
+    print("🌌 The Logos Engine is now operational!")
+    
+    # Test basic functionality
+    alchemist = EntropicAlchemist()
+    engine = ResonantCrossoverEngine()
+    
+    # Run a cosmic synthesis
+    result = engine.cosmic_synthesis("The universe began", "in meaning")
+    print(f"✨ First cosmic output: {result}")
+    
+except Exception as e:
+    print(f"❌ Cosmic initiation failed: {e}")
+    print("Let's try the package installation method...")
