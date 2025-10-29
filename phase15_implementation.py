@@ -136,7 +136,7 @@ class Phase15Implementation:
                 print(f"  Generation {gen:2d}: Fitness = {fitness:.3f}, Coherence = {best_narrative.coherence:.3f}")
         
         # Final results
-        final_narrative = self.evolutionary_engine._extract_best_narrative()
+        final_narrative = self.evolutionary_engine._get_best_narrative()
         print(f"\\n Final evolved narrative: \"{final_narrative.content}\"")
         print(f" Final coherence: {final_narrative.coherence:.3f}")
         

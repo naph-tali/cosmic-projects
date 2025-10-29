@@ -3,7 +3,7 @@
 
 import random
 import numpy as np
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass
 import math
 from .physics_of_meaning import EnhancedCRE
@@ -17,7 +17,7 @@ class NarrativeState:
     coherence: float = 0.0
     fitness_score: float = 0.0
     generation: int = 0
-    parent_ids: List[str] = None
+    parent_ids: Optional[List[str]] = None
     
     def __post_init__(self):
         if self.parent_ids is None:
@@ -179,7 +179,7 @@ class GenerativeEvolutionaryAlgorithm:
             if random.random() < self.crossover_rate and len(parents) >= 2:
                 # Crossover
                 parent_a, parent_b = random.sample(parents, 2)
-                child = self._fast_crossover(parent_a, parent_b)
+                child = self._fast_crossover(parent_a, parent_b, len(offspring))
             else:
                 # Clone
                 parent = random.choice(parents)
@@ -195,7 +195,7 @@ class GenerativeEvolutionaryAlgorithm:
         
         return offspring
     
-    def _fast_crossover(self, parent_a: NarrativeState, parent_b: NarrativeState) -> NarrativeState:
+    def _fast_crossover(self, parent_a: NarrativeState, parent_b: NarrativeState, offspring_index: int) -> NarrativeState:
         """Fast crossover implementation"""
         try:
             # Simple content blending
@@ -215,7 +215,7 @@ class GenerativeEvolutionaryAlgorithm:
             concepts = list(set(parent_a.concepts + parent_b.concepts))[:5]  # Limit concepts
             
             return NarrativeState(
-                state_id=f"child_{self.generation}_{len(offspring)}",
+                state_id=f"child_{self.generation}_{offspring_index}",
                 content=content,
                 concepts=concepts,
                 coherence=(parent_a.coherence + parent_b.coherence) / 2,
@@ -253,7 +253,7 @@ class GenerativeEvolutionaryAlgorithm:
             content=content,
             concepts=concepts,
             coherence=narrative.coherence,
-            parent_ids=narrative.parent_ids.copy(),
+            parent_ids=narrative.parent_ids.copy() if narrative.parent_ids is not None else [],
             generation=narrative.generation
         )
     
@@ -264,7 +264,7 @@ class GenerativeEvolutionaryAlgorithm:
             content=narrative.content,
             concepts=narrative.concepts.copy(),
             coherence=narrative.coherence,
-            parent_ids=narrative.parent_ids.copy(),
+            parent_ids=narrative.parent_ids.copy() if narrative.parent_ids is not None else [],
             generation=narrative.generation
         )
     

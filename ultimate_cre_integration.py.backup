@@ -1,4 +1,4 @@
-﻿#  ULTIMATE CRE INTEGRATION ENGINE
+#  ULTIMATE CRE INTEGRATION ENGINE
 # Robust integration building on successful fallback
 
 import sys
@@ -202,4 +202,3 @@ class UltimateCREIntegration:
             return "System optimal - maintain current performance"
 
 print(" Ultimate CRE Integration Engine ready!")
-
