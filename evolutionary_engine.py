@@ -266,8 +266,7 @@ class GenerativeEvolutionaryAlgorithm:
             coherence=narrative.coherence,
             parent_ids=narrative.parent_ids.copy() if narrative.parent_ids is not None else [],
             generation=narrative.generation
-        )
-    
+        )    
     def _quick_diversity(self) -> float:
         """Fast diversity calculation"""
         if len(self.population) < 2:

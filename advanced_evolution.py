@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import math
 from .physics_of_meaning import EnhancedCRE
 from .advanced_crossover import AdvancedResonantCrossoverEngine
+from narrative_synthesis import NarrativeSynthesis
 
 @dataclass 
 class NarrativeState:
@@ -25,66 +26,12 @@ class NarrativeState:
         if self.parent_ids is None:
             self.parent_ids = []
 
-class AdvancedEvolutionaryEngine:
+class EnhancedEvolutionaryEngine:
     """
-    AdvancedEvolutionaryEngine
-    An advanced evolutionary algorithm engine designed for evolving narrative states with enhanced crossover, mutation, and semantic analysis. This engine integrates semantic-aware selection, advanced fitness evaluation, and metrics tracking to optimize both the fitness and semantic quality of generated narratives.
-    Attributes:
-        hilbert_space: Source space containing initial state vectors for population initialization.
-        cre_system: Enhanced Creative Resonance Evaluation system for narrative assessment.
-        crossover_engine: Engine for performing advanced resonant crossover operations.
-        population (List[NarrativeState]): Current population of narrative states.
-        generation (int): Current generation number.
-        fitness_history (List[float]): Historical best fitness scores per generation.
-        semantic_history (List[float]): Historical best semantic quality scores per generation.
-        population_size (int): Number of individuals in the population.
-        elitism_count (int): Number of elite individuals preserved each generation.
-        mutation_rate (float): Probability of mutation per offspring.
-        crossover_rate (float): Probability of crossover per offspring.
-        max_generations (int): Maximum number of generations to evolve.
-        semantic_coherence_history (List[float]): Average semantic coherence per generation.
-        innovation_history (List[float]): Innovation metric per generation.
-    Methods:
-        initialize_population():
-            Initializes the population with diverse and semantically rich narratives using the Hilbert space and predefined advanced narratives.
-        evolve_narrative(generations: int = 25) -> NarrativeState:
-            Runs the evolutionary loop for a specified number of generations, optimizing for both fitness and semantic quality, and returns the best evolved narrative.
-        _enhanced_fitness(narrative: NarrativeState) -> float:
-            Computes an enhanced fitness score for a narrative, combining CRE evaluation, coherence, semantic quality, and novelty.
-        _quick_fitness(narrative: NarrativeState) -> float:
-            Provides a fallback fitness calculation based on content uniqueness and semantic quality.
-        _calculate_semantic_quality(narrative: NarrativeState) -> float:
-            Assesses the semantic quality of a narrative based on concept-content alignment and coherence.
-        _semantic_aware_selection() -> List[NarrativeState]:
-            Selects parent narratives for reproduction using a bias towards semantic quality.
-        _generate_advanced_offspring(parents: List[NarrativeState]) -> List[NarrativeState]:
-            Produces offspring using advanced crossover, elitism, and semantic-aware mutation.
-        _perform_advanced_crossover(parent_a: NarrativeState, parent_b: NarrativeState) -> NarrativeState:
-            Executes advanced crossover between two parent narratives, blending their semantic content.
-        _clone_with_semantic_variation(narrative: NarrativeState) -> NarrativeState:
-            Clones a narrative with minor semantic variations.
-        _apply_semantic_mutation(narrative: NarrativeState) -> NarrativeState:
-            Applies semantic-aware mutations to a narrative, enhancing concepts and content.
-        _fallback_crossover(parent_a: NarrativeState, parent_b: NarrativeState) -> NarrativeState:
-            Provides a simple fallback crossover method by blending parent contents and concepts.
-        _calculate_novelty(narrative: NarrativeState) -> float:
-            Measures the novelty of a narrative relative to the current population.
-        _calculate_semantic_diversity() -> float:
-            Calculates the semantic diversity of the population based on concept variety and semantic quality variance.
-        _calculate_innovation() -> float:
-            Computes the innovation level of the population based on recent fitness improvements.
-        _update_advanced_metrics():
-            Updates advanced metrics such as semantic coherence and innovation history.
-        _get_best_narrative() -> NarrativeState:
-            Retrieves the best narrative from the population, considering both fitness and semantic quality.
-        _extract_semantic_concepts(text: str) -> List[str]:
-            Extracts meaningful semantic concepts from a given text.
-        get_advanced_report() -> Dict[str, Any]:
-            Generates a comprehensive report of the evolutionary process, including best narrative, fitness progression, semantic progression, and advanced metrics.
+    Enhanced Evolutionary Engine integrating NarrativeSynthesis for novel, longer outputs.
     """
-    """Evolutionary engine with advanced crossover and semantic analysis"""
-    
-    def __init__(self, hilbert_space, cre_system=None):
+    def __init__(self, hilbert_space, cre_system=None, synth_engine=None):
+        self.synth_engine = synth_engine or NarrativeSynthesis()
         self.hilbert_space = hilbert_space
         self.cre_system = cre_system or EnhancedCRE()
         self.crossover_engine = AdvancedResonantCrossoverEngine()
@@ -92,17 +39,68 @@ class AdvancedEvolutionaryEngine:
         self.generation = 0
         self.fitness_history: List[float] = []
         self.semantic_history: List[float] = []
-        
-        # Enhanced parameters
         self.population_size = 20
         self.elitism_count = 3
         self.mutation_rate = 0.25
         self.crossover_rate = 0.7
         self.max_generations = 25
-        
-        # Advanced metrics
         self.semantic_coherence_history = []
         self.innovation_history = []
+        print("✅ Narrative Synthesis Engine: INTEGRATED")
+
+    def advanced_crossover_with_synthesis(self, parent_a, parent_b, synthesis_type="hybrid"):
+        """
+        Enhanced crossover using narrative synthesis for novel, longer outputs
+        """
+        print(f"🎯 Performing {synthesis_type} synthesis crossover...")
+        if synthesis_type == "hybrid":
+            new_content = self.synth_engine.hybrid_synthesis(
+                parent_a.content,
+                parent_b.content
+            )
+        elif synthesis_type == "template":
+            new_content = self.synth_engine.template_synthesis(
+                parent_a.content,
+                "cosmic evolution resonance"
+            )
+        elif synthesis_type == "adjoint":
+            new_content = self.synth_engine.adjoint_synthesis(
+                parent_a.content,
+                parent_b.content
+            )
+        else:
+            # Fallback to basic concatenation with synthesis enhancement
+            base_content = f"{parent_a.content} {parent_b.content}"
+            new_content = self.synth_engine.hybrid_synthesis(
+                base_content,
+                "universal principle of consciousness"
+            )
+
+        # Generate novel concepts from synthesis
+        new_concepts = list(set(parent_a.concepts + parent_b.concepts))
+        new_concepts.extend(self._extract_novel_concepts(new_content))
+
+        return NarrativeState(
+            state_id=f"synthesis_{parent_a.state_id}_{parent_b.state_id}",
+            content=new_content,
+            concepts=new_concepts,
+            coherence=self._calculate_enhanced_coherence(new_content),
+            parent_ids=[parent_a.state_id, parent_b.state_id],
+            generation=parent_a.generation + 1,
+            synthesis_type=synthesis_type
+        )
+
+    def _extract_novel_concepts(self, text):
+        """Extract novel concepts from synthesized text."""
+        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'}
+        words = [w.lower() for w in text.split() if w.lower() not in stop_words and len(w) > 3]
+        return list(set(words))[:6]  # Limit to 6 concepts
+
+    def _calculate_enhanced_coherence(self, text):
+        """Calculate enhanced coherence based on length and diversity."""
+        words = text.split()
+        unique = len(set(words))
+        return min(1.0, (unique / max(1, len(words))) * 0.7 + 0.3)
     
     def initialize_population(self) -> None:
         """Initialize population with enhanced diversity"""

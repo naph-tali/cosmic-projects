@@ -134,9 +134,12 @@ class Phase15Implementation:
             
             if gen % 5 == 0:
                 print(f"  Generation {gen:2d}: Fitness = {fitness:.3f}, Coherence = {best_narrative.coherence:.3f}")
+
+    def get_best_narrative(self):
+        raise NotImplementedError
         
         # Final results
-        final_narrative = self.evolutionary_engine._get_best_narrative()
+        final_narrative = self.evolutionary_engine.get_best_narrative()  # Use the method to get the best narrative
         print(f"\\n Final evolved narrative: \"{final_narrative.content}\"")
         print(f" Final coherence: {final_narrative.coherence:.3f}")
         
